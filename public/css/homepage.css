@@ -1,0 +1,21 @@
+.product-img{
+    height: 250px;
+    width: 100%;
+    object-fit: cover;
+} 
+.card-title{
+    font-weight: 600;
+}
+.navbar-brand{
+    font-weight: bold;
+}
+.input-group .form-control:focus {
+  box-shadow: none !important;
+  outline: none !important;
+  border-color: #ced4da !important;
+}
+input[type="search"]::-webkit-search-cancel-button {
+  -webkit-appearance: none;
+  appearance: none;
+  display: none;
+}
