@@ -10,6 +10,7 @@ class Home extends BaseController
     {
         $model = new ProductModel();
         $data['products'] = $model->findAll();
+        $data['electronics'] = $model->where('category', 'electronics')->findAll();
         return view('home', $data);
     }
 }
