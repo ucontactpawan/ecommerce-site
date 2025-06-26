@@ -18,3 +18,4 @@ $routes->get('cart', ['App\\Controllers\\CartController', 'viewCart']);
 $routes->get('cart/count', ['App\\Controllers\\CartController', 'count']);
 $routes->get('cart/remove/(:num)', ['App\Controllers\CartController', 'removeFromCart/$1']);
 $routes->get('logout', ['Auth', 'logout']);
+$routes->get('/category/(:any)', 'category::index/$1');
