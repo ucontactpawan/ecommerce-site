@@ -74,12 +74,8 @@
       "name": "Surround Sound Gaming Headphones",
       "price": 2899.00,
       "image": "headphones/headphone15.jpg"
-    },
-     {
-      "name": "Boss Gaming Headphones",
-      "price": 5899.00,
-      "image": "headphones/headphone16.jpg"
     }
+     
   ],
   "smartwatches": [
     {

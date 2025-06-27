@@ -1,21 +1,26 @@
 body {
-    background-color: #f8f9fa;
+    background-color: #f1f3f6;
 }
 
-h1 {
-    font-size: 2rem;
-    color: #343a40;
+.cart-item {
+    border-bottom: 1px solid #e0e0e0;
+    transition: background 0.2s ease-in-out;
 }
 
-.table {
-    margin-top: 20px;
+.cart-item:hover {
+    background-color: #f9f9f9;
 }
 
-.table th, .table td {
-    text-align: center;
-    vertical-align: middle;
+.btn-light.border {
+    box-shadow: none;
 }
 
-.btn-danger {
-    font-size: 0.9rem;
+.save-for-later, .remove-item {
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+.save-for-later:hover, .remove-item:hover {
+    text-decoration: underline;
 }

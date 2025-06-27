@@ -27,12 +27,12 @@ class CartController extends BaseController
         try {
             // check if the product is already in cart
             $existingCartItem = $cartModel->where('product_id', $productId)
-                                        ->where('user_id', $userId)
-                                        ->first();
+                                          ->where('user_id', $userId)
+                                          ->first();
 
             if($existingCartItem){
                 // Update quantity if product already exists in cart
-                $cartModel->update($existingCartItem['id'],[
+                $cartModel->update($existingCartItem['id'], [
                     'quantity' => $existingCartItem['quantity'] + 1
                 ]);
             } else {
@@ -50,8 +50,9 @@ class CartController extends BaseController
                     'message' => 'Item added to cart successfully'
                 ]);
             }
+
             return redirect()->back()->with('success', 'Item added to cart successfully');
-            
+
         } catch (\Exception $e) {
             log_message('error', 'Error adding to cart: ' . $e->getMessage());
             if ($isAjax) {
@@ -63,16 +64,15 @@ class CartController extends BaseController
             return redirect()->back()->with('error', 'Failed to add item to cart');
         }
     }
+
     public function viewCart()
     {
         $cartModel = new CartModel();
         $productModel = new ProductModel();
         $userId = session()->get('id');
 
-        // Fetch cart items for the user
         $cartItems = $cartModel->where('user_id', $userId)->findAll();
 
-        // Fetch product details for each cart item
         foreach ($cartItems as &$item) {
             $product = $productModel->find($item['product_id']);
             $item['product'] = $product ? $product : ['name' => 'Unknown', 'price' => 0];
@@ -87,13 +87,12 @@ class CartController extends BaseController
     {
         $cartModel = new CartModel();
         $userId = session()->get('id');
-
+        
         if (!$userId) {
             return $this->response->setJSON(['count' => 0]);
         }
 
         $count = $cartModel->where('user_id', $userId)->countAllResults();
-        
         return $this->response->setJSON(['count' => $count]);
     }
 
@@ -106,8 +105,6 @@ class CartController extends BaseController
             }
 
             $cartModel = new CartModel();
-            
-            // Verify the item belongs to the user
             $cartItem = $cartModel->where([
                 'id' => $id,
                 'user_id' => session()->get('id')
@@ -134,6 +131,7 @@ class CartController extends BaseController
                 ->setJSON(['success' => false, 'message' => 'An error occurred']);
         }
     }
+
     public function getCartCount()
     {
         $cartModel = new CartModel();
@@ -143,12 +141,41 @@ class CartController extends BaseController
             return $this->response->setJSON(['count' => 0]);
         }
 
-        // Get the total quantity of items in the cart for the user
         $totalQuantity = $cartModel->where('user_id', $userId)
-                                 ->selectSum('quantity')
-                                 ->first();
+                                   ->selectSum('quantity')
+                                   ->first();
 
         $count = $totalQuantity ? $totalQuantity['quantity'] : 0;
         return $this->response->setJSON(['count' => $count]);
+    }
+
+
+    public function updateQuantity($id, $quantity)
+    {
+        $cartModel = new CartModel();
+        $userId = session()->get('id');
+
+        if (!$userId) {
+            return $this->response->setStatusCode(401)
+                ->setJSON(['success' => false, 'message' => 'User not logged in']);
+        }
+
+        $cartItem = $cartModel->where([
+            'id' => $id,
+            'user_id' => $userId
+        ])->first();
+
+        if (!$cartItem) {
+            return $this->response->setStatusCode(404)
+                ->setJSON(['success' => false, 'message' => 'Item not found in cart']);
+        }
+
+        if ((int)$quantity < 1) {
+            return $this->response->setStatusCode(400)
+                ->setJSON(['success' => false, 'message' => 'Invalid quantity']);
+        }
+
+        $cartModel->update($id, ['quantity' => $quantity]);
+        return $this->response->setJSON(['success' => true]);
     }
 }

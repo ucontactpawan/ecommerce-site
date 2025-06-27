@@ -93,6 +93,7 @@
         const siteUrl = '<?= rtrim(site_url(), '/') ?>';
         const baseUrl = '<?= rtrim(base_url(), '/') ?>';
     </script>
+    
     <script src="<?= base_url('js/cart.js') ?>"></script>
     <script src="<?= base_url('js/electronics-slider.js') ?>"></script>
 

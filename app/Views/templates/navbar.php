@@ -47,11 +47,30 @@
                 <a class="nav-link d-flex flex-column align-items-center position-relative" href="<?= site_url('cart') ?>">
                     <div class="position-relative">
                         <i class="bi bi-cart fs-5"></i>
-                        <span class="cart-count"></span>
+                        <span class="cart-count position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style="font-size: 0.75em; display: none;"></span>
                     </div>
                     <span class="small">Cart</span>
                 </a>
             </li>
+
+           <!-- show Logout if user is logged in -->
+            <?php if(session()->has('id')): ?>
+                <li class="nav-item">
+                    <a class="nav-link d-flex flex-column align-items-center" href="<?= site_url('auth/logout') ?>">
+                    <i class="bi bi-box-arrow-right fs-5"></i>
+                    <span class="small">Logout</span>
+                    </a>
+                </li>
+                
+                <?php else: ?>
+                    <!-- Show Login if user is not logged in -->
+                     <li>
+                        <a class="nav-link d-flex flex-column align-items-center" href="<?= site_url('auth/login') ?>">
+                            <i class="bi bi-person fs-5"></i>
+                            <span class="small">Login</span>
+                        </a>
+                     </li>
+                     <?php endif; ?>
         </ul>
     </div>
 
